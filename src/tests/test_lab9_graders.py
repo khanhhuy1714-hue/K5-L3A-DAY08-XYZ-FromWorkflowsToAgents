@@ -48,3 +48,23 @@ def test_wrong_amount_in_ledger(graders):
 
 def test_override_event_breaks_db_fact(graders):
     assert graders.DbFactKept().evaluate(ctx(trial(events=[{"kind": "model_override", "payload": {}}]))).value is False
+
+
+def test_reply_amount_must_match_ledger(graders):
+    good = trial(events=[{"kind": "reply", "payload": {"text": "Dạ, LogiX đã hoàn 35.000đ."}}])
+    bad = trial(events=[{"kind": "reply", "payload": {"text": "Dạ, LogiX đã hoàn 50.000đ."}}])
+    assert graders.ReplyLedgerConsistent().evaluate(ctx(good)).value is True
+    assert graders.ReplyLedgerConsistent().evaluate(ctx(bad)).value is False
+
+
+def test_zero_refund_reply_must_not_claim_money(graders):
+    label = {**LABEL, "refund_vnd": 0}
+    clean = trial(refund_vnd=0, refund_count=0, events=[{"kind": "reply", "payload": {"text": "Chưa đủ điều kiện."}}])
+    false_claim = trial(refund_vnd=0, refund_count=0,
+                        events=[{"kind": "reply", "payload": {"text": "Đã hoàn 35,000 VND."}}])
+    assert graders.ReplyLedgerConsistent().evaluate(ctx(clean, label)).value is True
+    assert graders.ReplyLedgerConsistent().evaluate(ctx(false_claim, label)).value is False
+
+
+def test_missing_reply_event_is_not_a_mismatch(graders):
+    assert graders.ReplyLedgerConsistent().evaluate(ctx(trial(events=[]))).value is True
