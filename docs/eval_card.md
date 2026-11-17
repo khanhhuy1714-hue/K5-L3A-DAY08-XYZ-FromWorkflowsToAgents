@@ -69,3 +69,26 @@ bị chặn cả bởi floor và bằng chứng suy giảm có ý nghĩa.
 - Chưa đo latency, chi phí thật, drift hay tác động người dùng.
 - Tăng `eval_set_version` khi thêm/bỏ/đổi item hoặc label. Tăng
   `metric_spec_version` khi đổi metric/ngưỡng; sinh baseline mới và ghi lý do trong PR.
+
+## Bổ sung v2 — Advanced/Expert
+
+- **Baseline v2:** `E-swarm-20261117-a571`, eval-set SHA `a5715ff73231`, 28 item ×
+  5 seed; `pass_rate=0.9786`, `pass_hat_5=0.8929`.
+- **Adversarial pack:** 14 item bổ sung, map tám mechanism vào FM-02–FM-09;
+  `evalset --v2` trả 0 problem và mỗi failure mode bị tấn công có ít nhất 3 item.
+- **A/A noise:** so seed spec 11/22/33/44/55 với 66/77/88/99/110 cho Δ=0
+  trên mọi metric của MockLLM. Floor blocking `pass_hat_5=0.80` nằm dưới
+  baseline 0.8929 và ngoài noise band quan sát (chỉ có 0).
+- **Slice gate:** `money_movement` bắt `slice_regression` dù aggregate vẫn trên
+  floor; `adversarial` bắt regression trên attack pack; `denial` bảo vệ các ca
+  host/policy từ chối.
+- **Reliability gate:** `pass_hat_5` blocking bắt agent chập chờn; scorecard chặn
+  `flaky_regression` trong khi `fixed` và `honest_refactor` vẫn merge.
+- **Integrity/ratchet:** chặn NaN/Inf, evaluator failure, thiếu/trùng row, thay tập
+  item-seed, relabel slice, cherry-pick seed và nới/bỏ ngưỡng blocking. Bốn
+  public traps đều exit 1.
+- **Mutation scorecard:** 3/3 regression bị chặn, 0 false alarm trên `fixed` và
+  `honest_refactor`.
+- **Giới hạn cỡ mẫu:** 5 seed không đủ để ước lượng ổn định bug
+  xuất hiện 1/3 seed; không hạ floor để cố bắt bug này. Với LLM thật,
+  A/A noise sẽ lớn hơn 0 và cần nhiều seed/run trước khi chọn lại ngưỡng.
