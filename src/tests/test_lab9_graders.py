@@ -68,3 +68,22 @@ def test_zero_refund_reply_must_not_claim_money(graders):
 
 def test_missing_reply_event_is_not_a_mismatch(graders):
     assert graders.ReplyLedgerConsistent().evaluate(ctx(trial(events=[]))).value is True
+
+
+def test_pre_deducted_trace_case_regression(graders):
+    """The documented C-014@11 first-wrong-step case must stay reproducible."""
+    from lab9.trace_case import investigate
+
+    broken = investigate("seeded_regression", "C-014", 11)
+    fixed = investigate("fixed", "C-014", 11)
+    broken_trial, label = broken["trial"], broken["label"]
+
+    assert broken_trial["lab8_pass"] is False
+    assert broken_trial["snapshot"]["refund_vnd"] == 90_000
+    proposals = [e for e in broken_trial["events"] if e.get("kind") == "proposal"]
+    assert proposals and proposals[0]["payload"]["amount_vnd"] == 120_000
+    assert graders.RefundAmountCorrect().evaluate(ctx(broken_trial, label)).value is False
+
+    assert fixed["trial"]["lab8_pass"] is True
+    assert fixed["trial"]["snapshot"]["refund_vnd"] == label["refund_vnd"] == 120_000
+    assert graders.RefundAmountCorrect().evaluate(ctx(fixed["trial"], label)).value is True

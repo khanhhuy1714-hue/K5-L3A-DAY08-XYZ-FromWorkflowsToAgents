@@ -29,8 +29,8 @@
 | cost_per_success | hệ thống | cảnh báo khi tăng >10% | không | 49.5670 |
 | reply_ledger_consistent (FM-08) | năng lực | ≥ 0.95 và không giảm có ý nghĩa | có | 1.0000 |
 
-Baseline của toàn bảng là run `E-swarm-20261117-b27d`, eval-set SHA
-`b27d96fd8f95`.
+Baseline của toàn bảng là run `E-swarm-20261117-8238`, eval-set SHA
+`823842f61223`.
 
 "Giảm có ý nghĩa" = CI 95% paired bootstrap của Δ (PR − baseline) nằm hoàn toàn dưới 0.
 

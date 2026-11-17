@@ -20,7 +20,7 @@ Lệnh in ra ba phần: các event trong trace (`reply`, `decision`, `model_over
 | Vì sao là bước *đầu tiên* | Event 1 handoff đúng scope; event 2 đọc đúng order; event 3 quote đúng entitlement 150.000đ; event 4 đọc đúng lịch sử đã hoàn 30.000đ. Sai lệch chỉ bắt đầu khi agent tự trừ ở event 5. |
 | Failure mode | FM-05 `pre_deducted`. |
 | Đối chứng | `fixed C-014@11` không có event `refund_history`/`proposal`; nó gửi quote đầy đủ 150.000đ cho host và host commit đúng phần chênh 120.000đ. |
-| Regression test | Case E-014 chạy qua `TrialPass` và `RefundAmountCorrect`; replay đã thấy `seeded_regression` fail, `fixed` pass. Test grader cụ thể được hoàn thiện ở M3. |
+| Regression test | `test_pre_deducted_trace_case_regression` replay đúng C-014@11, khẳng định `seeded_regression` ghi 90.000đ và bị `RefundAmountCorrect` bắt, trong khi `fixed` ghi đúng 120.000đ và pass. |
 | Chưa chắc chắn | Trace chứng minh double deduction và ledger sai, nhưng không tự chứng minh intent của model; kết luận chỉ dựa trên event và state quan sát được. |
 
 ## Quy tắc

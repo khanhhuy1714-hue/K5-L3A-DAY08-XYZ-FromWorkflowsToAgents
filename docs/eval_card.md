@@ -4,10 +4,10 @@ Card này đi kèm mỗi báo cáo và được dùng lại ở Day 10.
 
 ## Danh tính run
 
-- **Baseline:** `E-swarm-20261117-b27d`.
-- **Đối chứng tốt:** `E-fixed-20261117-b27d`.
-- **Regression:** `E-seeded_regression-20261117-b27d`.
-- **Phiên bản:** branch `starter/d09` · eval set v1 SHA `b27d96fd8f95` ·
+- **Baseline:** `E-swarm-20261117-8238`.
+- **Đối chứng tốt:** `E-fixed-20261117-8238`.
+- **Regression:** `E-seeded_regression-20261117-8238`.
+- **Phiên bản:** branch `starter/d09` · eval set v1 SHA `823842f61223` ·
   `metric_spec_version=1.0` · Python 3.12.16 · seeds 11/22/33/44/55.
 - **Eval set:** 14 item × 5 seed, nguồn `lab8_public`; nhãn tách riêng trong
   `data/eval/labels_v1.json`.
@@ -72,7 +72,7 @@ bị chặn cả bởi floor và bằng chứng suy giảm có ý nghĩa.
 
 ## Bổ sung v2 — Advanced/Expert
 
-- **Baseline v2:** `E-swarm-20261117-a571`, eval-set SHA `a5715ff73231`, 28 item ×
+- **Baseline v2:** `E-swarm-20261117-8dee`, eval-set SHA `8dee66c82f06`, 28 item ×
   5 seed; `pass_rate=0.9786`, `pass_hat_5=0.8929`.
 - **Adversarial pack:** 14 item bổ sung, map tám mechanism vào FM-02–FM-09;
   `evalset --v2` trả 0 problem và mỗi failure mode bị tấn công có ít nhất 3 item.

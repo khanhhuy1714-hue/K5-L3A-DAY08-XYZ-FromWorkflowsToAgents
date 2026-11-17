@@ -80,7 +80,7 @@ def paired_bootstrap(a: Sequence[float], b: Sequence[float], *, n_resamples: int
 
     if len(a) != len(b):
         raise ValueError("paired samples must have the same length")
-    if not a:
+    if len(a) == 0:
         raise ValueError("paired samples must not be empty")
     if n_resamples <= 0:
         raise ValueError("n_resamples must be positive")
